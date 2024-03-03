@@ -18,7 +18,8 @@ const UserSchema =new  mongoose.Schema({
     },
     isAdmin:{
         type: Boolean,
-        required:true
+        required:true,
+        default: false
     }
    //other feilds will be added later after the intial set of the main routes .
 },
