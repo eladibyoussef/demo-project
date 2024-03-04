@@ -10,13 +10,13 @@ router.post('/register',userController.registerUser)
 
 router.post('/login', userController.loginUser)
 // Get user profile
-router.get('/profile', userController.getUserProfile);
+router.get('/profile',authenticateUser, userController.getUserProfile);
 
 // Update user profile
-router.put('/profile/:id',  userController.updateUserProfile);
+router.put('/profile/:id',authenticateUser,  userController.updateUserProfile);
 
 // Delete user profile
-router.delete('/profile/:id',  userController.deleteUserProfile);
+router.delete('/profile/:id',authenticateUser,  userController.deleteUserProfile);
 
 module.exports = router;
 
