@@ -6,7 +6,9 @@ const userController = require('../controllers/userControllers');
 const { authenticateUser } = require('../source/config/userPassport');
 
 // registration and login to be added by youssef
+router.post('/register',userController.registerUser)
 
+router.post('/login', userController.loginUser)
 // Get user profile
 router.get('/profile', userController.getUserProfile);
 
