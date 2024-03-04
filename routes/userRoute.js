@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userControllers');
-
+const passwordResetControllers = require('../controllers/passwordResetControllers')
 // Importing the middleware function (JWT passport)
 const { authenticateUser } = require('../source/config/userPassport');
 
@@ -13,9 +13,9 @@ router.post('/login', userController.loginUser)
 router.get('/profile',authenticateUser, userController.getUserProfile);
 
 // the route that will receive the reset password request.
-router.post('/forgotpassword', userController.forgotpassword)
+router.post('/forgotpassword', passwordResetControllers.forgotpassword)
 //after receiving the token the user will be send it back in params along with the new  password and it confirmation
-router.post('/resetpassword/:token',userController.resetPassword)
+router.post('/resetpassword/:token',passwordResetControllers.resetPassword)
 // Update user profile
 router.put('/profile/:id',authenticateUser,  userController.updateUserProfile);
 
