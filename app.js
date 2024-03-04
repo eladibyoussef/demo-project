@@ -9,6 +9,8 @@ const Admin = require('./models/admin.model');
 const User = require('./models/user.model')
 const  {authenticateAdmin} = require('./source/config/adminPassport');
 const  {authenticateUser} = require('./source/config/userPassport');
+const userRouters = require('./routes/userRoute')
+
 
 
 require("dotenv").config();
@@ -30,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(passport.initialize());
+app.use('/user',userRouters)
 
 
 app.listen(PORT, ()=>{
