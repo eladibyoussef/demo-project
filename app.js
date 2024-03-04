@@ -5,10 +5,9 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const app = express();
 const mongoose = require('mongoose');
-const Admin = require('./models/admin.model');
-const User = require('./models/user.model')
-const  {authenticateAdmin} = require('./source/config/adminPassport');
 const  {authenticateUser} = require('./source/config/userPassport');
+
+const adminRoute = require('./routes/adminRoute')
 const userRouters = require('./routes/userRoute')
 
 
@@ -32,6 +31,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(passport.initialize());
+
+app.use('/users', adminRoute)
+
+
 app.use('/user',userRouters)
 
 
