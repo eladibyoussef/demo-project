@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const mongoose = require('mongoose');
 const  {authenticateUser} = require('./source/config/userPassport');
+
 const adminRoute = require('./routes/adminRoute')
+const userRouters = require('./routes/userRoute')
 
 
 
@@ -29,8 +31,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(passport.initialize());
+
 app.use('/users', adminRoute)
 
+
+app.use('/user',userRouters)
 
 
 app.listen(PORT, ()=>{
