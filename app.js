@@ -5,10 +5,11 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const app = express();
 const mongoose = require('mongoose');
-const Admin = require('./models/admin.model');
-const User = require('./models/user.model')
-const  {authenticateAdmin} = require('./source/config/adminPassport');
 const  {authenticateUser} = require('./source/config/userPassport');
+
+const adminRoute = require('./routes/adminRoute')
+const userRouters = require('./routes/userRoute')
+
 
 
 require("dotenv").config();
@@ -128,6 +129,11 @@ app.get('/userprotected',authenticateUser, (req,res)=>{
     res.json({message:'you are in the user protected area '})
 } )
 
+
+app.use('/users', adminRoute)
+
+
+app.use('/user',userRouters)
 
 
 app.listen(PORT, ()=>{
