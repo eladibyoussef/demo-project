@@ -12,6 +12,10 @@ router.post('/login', userController.loginUser)
 // Get user profile
 router.get('/profile',authenticateUser, userController.getUserProfile);
 
+// the route that will receive the reset password request.
+router.post('/forgotpassword', userController.forgotpassword)
+//after receiving the token the user will be send it back in params along with the new  password and it confirmation
+router.post('/resetpassword/:token',userController.resetPassword)
 // Update user profile
 router.put('/profile/:id',authenticateUser,  userController.updateUserProfile);
 

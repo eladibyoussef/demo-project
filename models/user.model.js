@@ -20,6 +20,18 @@ const UserSchema =new  mongoose.Schema({
         type: Boolean,
         required:true,
         default: false
+    },
+    resetToken:{
+        type:String,
+        default: undefined
+    },
+    resetTokenExpiration:{
+        type:Date,
+        default: undefined
+    },
+    passwordUpdatedAt:{
+        type:Date,
+        default:undefined
     }
    //other feilds will be added later after the intial set of the main routes .
 },
