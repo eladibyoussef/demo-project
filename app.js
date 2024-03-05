@@ -8,6 +8,7 @@ const adminRoute = require('./routes/adminRoute')
 const userRouters = require('./routes/userRoute')
 // const Admin = require('./models/admin.model')
 const adminAuth = require('./routes/adminAuth')
+const productsRouter = require('./routes/productRoutes');
 require("dotenv").config();
 
 
@@ -34,6 +35,7 @@ app.use(passport.initialize());
 app.use('/users', adminRoute)
 app.use('/user',userRouters)
 app.use('/admin',adminAuth)
+app.use('/products',productsRouter )
 
 app.listen(PORT, ()=>{
      console.log(`http://localhost:${PORT}`);
