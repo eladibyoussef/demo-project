@@ -15,6 +15,7 @@ const updateProduct = async (req, res) => {
             gender: gender,
             price: price
         });
+        console.log(updatedProduct);
 
         if (!updatedProduct) {
             return res.status(404).json({ message: 'Product not found' });
@@ -96,11 +97,27 @@ const createProduct = async (req, res) => {
     }
 };
 
+const getAllProducts = async (req,res)=>{
+    try {
+        const products = await Product.find();
+        if(!products){
+            res.status(404).json({msg:' no products found'})
+        }else{
+            res.status(200).json(products);
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+
+    }
+   
+}
+
 module.exports = {
     updateProduct,
     deleteProduct,
   searchForProduts,
-  createProduct
+  createProduct,
+  getAllProducts
 };
 
 

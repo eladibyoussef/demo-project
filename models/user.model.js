@@ -24,5 +24,5 @@ const UserSchema =new  mongoose.Schema({
    //other feilds will be added later after the intial set of the main routes .
 },
 
-{timesatamps:true});
+{timestamps:true});
 module.exports = mongoose.model('User',UserSchema)

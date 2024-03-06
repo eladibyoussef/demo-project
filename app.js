@@ -7,8 +7,8 @@ const mongoose = require('mongoose');
 const adminRoute = require('./routes/adminRoute')
 const userRouters = require('./routes/userRoute')
 // const Admin = require('./models/admin.model')
-const adminAuth = require('./routes/adminAuth')
-const productsRouter = require('./routes/productRoutes');
+const adminAuth = require('./routes/adminAuthRoute')
+const productsRouter = require('./routes/productRoute');
 require("dotenv").config();
 
 
