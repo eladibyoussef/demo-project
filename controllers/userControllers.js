@@ -2,8 +2,7 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const generateToken = require("../utilities/resetToken");
-const sendResetPasswordEmail = require("../services/emailService");
+
 
 //registration and login to be added by youssef
 const registerUser = async (req, res) => {
@@ -63,7 +62,7 @@ const loginUser = async (req, res) => {
 };
 
 // Get user profile
-async function getUserProfile(req, res) {
+const  getUserProfile = async(req, res) =>{
   const { email } = req.body;
   try {
     const user = await User.findOne({ email: email });
@@ -71,11 +70,11 @@ async function getUserProfile(req, res) {
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
-  }
-}
+  }}
+
 
 // Update user profile
-async function updateUserProfile(req, res) {
+const  updateUserProfile= async (req, res) =>{
   const { email, name } = req.body;
   const id = req.params.id;
   console.log(id);
@@ -85,14 +84,14 @@ async function updateUserProfile(req, res) {
       { email: email, name: name }
     );
     if (!user) return res.status(404).json({ message: "User not found" });
-    res.json({ message: "Profile updated successfully" });
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
 
 // Delete user profile
-async function deleteUserProfile(req, res) {
+const  deleteUserProfile = async (req, res)=> {
   const { email, name } = req.body;
   const id = req.params.id;
   try {
@@ -100,11 +99,18 @@ async function deleteUserProfile(req, res) {
       { _id: id },
       { email: email, name: name }
     );
+    console.log(user);
+
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json({ message: "Profile deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+}
+
+const logOutUser = async (req,res)=>{
+    res.clearCookie('token');
+    res.status(200).json({msg:'logged out successfully '})
 }
 
 module.exports = {
@@ -113,5 +119,6 @@ module.exports = {
   deleteUserProfile,
   registerUser,
   loginUser,
+  logOutUser
   
 };

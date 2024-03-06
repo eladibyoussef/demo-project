@@ -7,14 +7,15 @@ const  {authenticateAdmin} = require('../source/config/adminPassport');
 
 
 // Update a product
-router.put('/:id', productsControllers.updateProduct);
+router.put('/:id', authenticateAdmin,productsControllers.updateProduct);
 // Delete a product
-router.delete('/:id', productsControllers.deleteProduct);
-
-router.get('/search',productsControllers.searchForProduts);
+router.delete('/:id',authenticateAdmin ,productsControllers.deleteProduct);
 
 router.post('/', authenticateAdmin,productsControllers.createProduct);
+
+//these routes dont require admin authorization
 router.get('/',productsControllers.getAllProducts);
+router.get('/search',productsControllers.searchForProduts);
 
 
 

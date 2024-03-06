@@ -93,10 +93,15 @@ const DelelUserById =  async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 }
+const logOutAdmin = async (req,res)=>{
+    res.clearCookie('token');
+    res.status(200).json({msg:'logged out successfully '})
+}
 
 module.exports={
     getAllUsers,
     UpdatUserById,
     DelelUserById,
-    adminLogin
+    adminLogin,
+    logOutAdmin
 }
