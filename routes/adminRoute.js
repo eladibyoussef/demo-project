@@ -6,8 +6,6 @@ const  {authenticateAdmin} = require('../source/config/adminPassport');
 // Route to get all users, accessible only by authenticated admins
 router.get('/', authenticateAdmin, adminControllers.getAllUsers);
 
-router.get('/',authenticateAdmin,adminControllers.getAllUsers );
-
 router.put('/:id',authenticateAdmin,adminControllers.UpdatUserById );
 
 router.delete('/:id',authenticateAdmin,adminControllers.DelelUserById);
