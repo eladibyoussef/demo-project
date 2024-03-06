@@ -27,6 +27,7 @@ const forgotpassword = async (req, res) => {
 const resetPassword = async (req, res) => {
   const token = req.params.token;
   const { password, confirmedPassword } = req.body;
+  console.log('token sent :',token);
   if (password !== confirmedPassword) {
     res.sent(401).json({ msg: "the passwords do not match , please re-check" });
   }
