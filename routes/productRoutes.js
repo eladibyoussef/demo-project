@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { updateProduct, deleteProduct } = require('../controllers/productsControllers');
+const  productsControllers= require('../controllers/productsControllers');
 
 // Update a product
-router.put('/:id', updateProduct);
+router.put('/:id', productsControllers.updateProduct);
 
 // Delete a product
-router.delete('/:id', deleteProduct);
+router.delete('/:id', productsControllers.deleteProduct);
 
 module.exports = router;
 
