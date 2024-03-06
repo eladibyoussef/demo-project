@@ -32,6 +32,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 
+
+
+
 app.use('/users', adminRoute)
 app.use('/user',userRouters)
 app.use('/admin',adminAuth)
