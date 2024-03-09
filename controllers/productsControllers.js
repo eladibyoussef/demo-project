@@ -52,7 +52,6 @@ const searchForProduts = async (req,res)=>{
         // console.log('query',queryParameter);
         const product = await Product.find({
             $or: [
-                // { _id:queryParameter},
                 {model:{ $regex: queryParameter, $options: 'i' } },
                 {brand:{ $regex: queryParameter, $options: 'i' } },
                 {gender:{ $regex: queryParameter, $options: 'i' } },
