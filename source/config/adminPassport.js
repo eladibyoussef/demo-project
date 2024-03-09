@@ -1,13 +1,13 @@
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 const Admin = require('../../models/admin.model')
-const {cookieExtractor} = require('../../utilities/passportUtilities')
-//options object will be filled later in this page , in our case we want the token to be extracted from the cookie , I stored  the secret key in .env file 
+//options object will be filled later in this page , the token will be sent in the response , I stored  the secret key in .env file 
 const options = {};
 require('dotenv').config();
 
 //fill the options object that will be used by the passport to authenticate the user.
-options.jwtFromRequest = cookieExtractor;
+options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = process.env.ADMIN_SECRET;
 
 //I found it better to distunguish between admins authentication and user authentication , because it will be easier to give the right access and authorization to admin later in the app
@@ -15,7 +15,7 @@ options.secretOrKey = process.env.ADMIN_SECRET;
 passport.use('admin-jwt', new JwtStrategy(options, async (payload, done) => {
     try {
         const admin = await Admin.findById(payload.id)
-        if(admin&&admin.isAdmin){
+        if(admin){
             return done(null,admin);
         }else{
             return done(null,false)

@@ -35,7 +35,7 @@ const deleteProduct = async (req, res) => {
         const deletedProduct = await Product.findByIdAndDelete(productId);
 
         if (!deletedProduct) {
-            return res.status(404).json({ message: 'Product not found' });
+             res.status(404).json({ message: 'Product not found' });
         }
 
         res.json({ message: 'Product deleted' });
@@ -52,9 +52,12 @@ const searchForProduts = async (req,res)=>{
         // console.log('query',queryParameter);
         const product = await Product.find({
             $or: [
-                {model:queryParameter },
-                {brand:queryParameter },
-                {gender:queryParameter }
+                // { _id:queryParameter},
+                {model:{ $regex: queryParameter, $options: 'i' } },
+                {brand:{ $regex: queryParameter, $options: 'i' } },
+                {gender:{ $regex: queryParameter, $options: 'i' } },
+                {description:{ $regex: queryParameter, $options: 'i' } }
+
             ]
         });
         if(!product){
@@ -110,6 +113,15 @@ const getAllProducts = async (req,res)=>{
 
     }
    
+}
+const searchProductsByPrice = async (req,res)=>{
+    const {min,max}=req.query;
+    try {
+        const product = await Product.find()
+    } catch (error) {
+        
+    }
+ 
 }
 
 module.exports = {

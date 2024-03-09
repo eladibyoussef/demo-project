@@ -22,9 +22,12 @@ const mailOptions = {
 };
 
 // Send email
+
 transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
         console.error('Error occurred:', error);
+        res.status(500).json({ msg: " can't send email , please try again later" });
+
     } else {
         console.log('Email sent:', info.response);
     }

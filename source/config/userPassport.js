@@ -1,14 +1,13 @@
 const passport = require('passport');
-const express = require('express')
 const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('../../models/user.model');
-const {cookieExtractor} = require('../../utilities/passportUtilities')
-//options object will be filled later in this page , in our case we want the token to be extracted from the cookie , I stored  the secret key in .env file 
+//options object will be filled later in this page , in our case we want the token to be extracted from the header as a bearer token , I stored  the secret key in .env file 
 const options = {};
 require('dotenv').config();
 
 //fill the options object that will be used by the passport to authenticate the user.
-options.jwtFromRequest = cookieExtractor;
+options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = process.env.USER_SECRET;
 
 

@@ -47,10 +47,10 @@ const loginUser = async (req, res) => {
           { expiresIn: 3600000 },
           (err, token) => {
             // console.log(token);
-            res.cookie("token", token, {
-              maxAge: 3600000,
+            res.status(200).json({
+              success: true,
+              token: 'Bearer ' + token
             });
-            res.status(200).json({ msg: "user logged successfully " });
           }
         );
       }
