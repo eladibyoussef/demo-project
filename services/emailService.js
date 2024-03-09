@@ -18,7 +18,7 @@ const mailOptions = {
     to: `${email}`,
     subject: 'Reset password ',
     text: `here is the link from wher you can reset your password , please be aware that it wil be expired in 10 minutes:
-    http://localhost:3000/resetpassword/${token}`
+    http://localhost:3000/user/resetpassword/${token}`
 };
 
 // Send email

@@ -43,9 +43,8 @@ const resetPassword = async (req, res) => {
           msg: "we are sorry the password reset session  has expired or invalid token",
         });
     } else {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      user.password = hashedPassword;
+      
+      user.password = password;
       user.resetToken = undefined;
       user.resetTokenExpiration = undefined;
       user.passwordUpdatedAt = Date.now();

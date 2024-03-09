@@ -3,24 +3,26 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-
 //registration and login to be added by youssef
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
   try {
     const user = await User.findOne({ email: email });
     if (!user) {
-      const salt = await bcrypt.genSalt(10);
-      const hashed = await bcrypt.hash(password, salt);
-
       const newUser = new User({
         name: name,
         email: email,
-        password: hashed,
+        password: password,
       });
-      await newUser.save();
-      console.log("user created ");
-      res.status(201).json({ msg: "success", user: newUser });
+      const savedUser = await newUser.save();
+      console.log("savedUser:",savedUser);
+      if (savedUser) {
+        res.status(201).json({ msg: "success", user: savedUser });
+      } else {
+        res
+          .status(500)
+          .json({ msg: "something went wrong , please try again later " });
+      }
     } else {
       res.status(500).json({ message: "please try other credentials" });
     }
@@ -49,7 +51,7 @@ const loginUser = async (req, res) => {
             // console.log(token);
             res.status(200).json({
               success: true,
-              token: 'Bearer ' + token
+              token: "Bearer " + token,
             });
           }
         );
@@ -62,7 +64,7 @@ const loginUser = async (req, res) => {
 };
 
 // Get user profile
-const  getUserProfile = async(req, res) =>{
+const getUserProfile = async (req, res) => {
   const { email } = req.body;
   try {
     const user = await User.findOne({ email: email });
@@ -70,11 +72,11 @@ const  getUserProfile = async(req, res) =>{
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
-  }}
-
+  }
+};
 
 // Update user profile
-const  updateUserProfile= async (req, res) =>{
+const updateUserProfile = async (req, res) => {
   const { email, name } = req.body;
   const id = req.params.id;
   console.log(id);
@@ -88,10 +90,10 @@ const  updateUserProfile= async (req, res) =>{
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 // Delete user profile
-const  deleteUserProfile = async (req, res)=> {
+const deleteUserProfile = async (req, res) => {
   const { email, name } = req.body;
   const id = req.params.id;
   try {
@@ -106,12 +108,12 @@ const  deleteUserProfile = async (req, res)=> {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-const logOutUser = async (req,res)=>{
-    res.clearCookie('token');
-    res.status(200).json({msg:'logged out successfully '})
-}
+const logOutUser = async (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ msg: "logged out successfully " });
+};
 
 module.exports = {
   getUserProfile,
@@ -119,6 +121,5 @@ module.exports = {
   deleteUserProfile,
   registerUser,
   loginUser,
-  logOutUser
-  
+  logOutUser,
 };
