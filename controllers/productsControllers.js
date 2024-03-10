@@ -101,12 +101,20 @@ const createProduct = async (req, res) => {
 };
 
 const getAllProducts = async (req,res)=>{
+    const {sort} = req.query
     try {
         const products = await Product.find();
         if(!products){
             res.status(404).json({msg:' no products found'})
         }else{
-            res.status(200).json(products);
+            if(!sort){
+                res.status(200).json(products);
+            }else{
+                let sortOption = parseInt(sort);
+                const sortedProducts =await Product.find().sort({price:sortOption});
+                res.status(200).json(sortedProducts);
+
+            }
         }
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -119,7 +127,7 @@ const searchProductsByPrice = async (req,res)=>{
     try {
         const product = await Product.find(
             {price: {$gte:min,$lte:max}}
-        )
+        ).sort({price:1})
         if(!product){
               res.status(404).json({msg:'ne product found'})
           }else{
