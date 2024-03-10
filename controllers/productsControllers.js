@@ -48,14 +48,14 @@ const deleteProduct = async (req, res) => {
 //I used the $or query operator to implament the a felxible search 
 const searchForProduts = async (req,res)=>{
     try {
-        const queryParameter = req.query.searchFor
+        const queryParameter = req.query.searchFor.trim();
         // console.log('query',queryParameter);
         const product = await Product.find({
             $or: [
                 {model:{ $regex: queryParameter, $options: 'i' } },
                 {brand:{ $regex: queryParameter, $options: 'i' } },
                 {gender:{ $regex: queryParameter, $options: 'i' } },
-                {description:{ $regex: queryParameter, $options: 'i' } }
+                {description:{ $regex:queryParameter, $options: 'i' } }
 
             ]
         });
@@ -84,7 +84,8 @@ const createProduct = async (req, res) => {
             brand: req.body.brand,
             description: req.body.description,
             gender: req.body.gender,
-            price: req.body.price
+            price: req.body.price,
+            quantity:req.body.quantity
         });
 
         const newProduct = await product.save();
@@ -116,19 +117,29 @@ const getAllProducts = async (req,res)=>{
 const searchProductsByPrice = async (req,res)=>{
     const {min,max}=req.query;
     try {
-        const product = await Product.find()
+        const product = await Product.find(
+            {price: {$gte:min,$lte:max}}
+        )
+        if(!product){
+              res.status(404).json({msg:'ne product found'})
+          }else{
+            res.status(201).json(product);
+          }
     } catch (error) {
-        
+        res.status(400).json({ message: error.message });
+
     }
  
 }
+
 
 module.exports = {
     updateProduct,
     deleteProduct,
   searchForProduts,
   createProduct,
-  getAllProducts
+  getAllProducts,
+  searchProductsByPrice
 };
 
 

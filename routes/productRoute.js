@@ -15,7 +15,8 @@ router.post('/', authenticateAdmin,productsControllers.createProduct);
 //these routes dont require admin authorization
 router.get('/',productsControllers.getAllProducts);
 router.get('/search',productsControllers.searchForProduts);
-// router.get('/sortbyPrice')
+router.get('/searchByPrice',productsControllers.searchProductsByPrice);
+
 
 
 
