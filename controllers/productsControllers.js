@@ -35,7 +35,7 @@ const deleteProduct = async (req, res) => {
         const deletedProduct = await Product.findByIdAndDelete(productId);
 
         if (!deletedProduct) {
-            return res.status(404).json({ message: 'Product not found' });
+             res.status(404).json({ message: 'Product not found' });
         }
 
         res.json({ message: 'Product deleted' });
@@ -48,13 +48,15 @@ const deleteProduct = async (req, res) => {
 //I used the $or query operator to implament the a felxible search 
 const searchForProduts = async (req,res)=>{
     try {
-        const queryParameter = req.query.searchFor
+        const queryParameter = req.query.searchFor.trim();
         // console.log('query',queryParameter);
         const product = await Product.find({
             $or: [
-                {model:queryParameter },
-                {brand:queryParameter },
-                {gender:queryParameter }
+                {model:{ $regex: queryParameter, $options: 'i' } },
+                {brand:{ $regex: queryParameter, $options: 'i' } },
+                {gender:{ $regex: queryParameter, $options: 'i' } },
+                {description:{ $regex:queryParameter, $options: 'i' } }
+
             ]
         });
         if(!product){
@@ -82,7 +84,8 @@ const createProduct = async (req, res) => {
             brand: req.body.brand,
             description: req.body.description,
             gender: req.body.gender,
-            price: req.body.price
+            price: req.body.price,
+            quantity:req.body.quantity
         });
 
         const newProduct = await product.save();
@@ -98,12 +101,20 @@ const createProduct = async (req, res) => {
 };
 
 const getAllProducts = async (req,res)=>{
+    const {sort} = req.query
     try {
         const products = await Product.find();
         if(!products){
             res.status(404).json({msg:' no products found'})
         }else{
-            res.status(200).json(products);
+            if(!sort){
+                res.status(200).json(products);
+            }else{
+                let sortOption = parseInt(sort);
+                const sortedProducts =await Product.find().sort({price:sortOption});
+                res.status(200).json(sortedProducts);
+
+            }
         }
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -111,13 +122,32 @@ const getAllProducts = async (req,res)=>{
     }
    
 }
+const searchProductsByPrice = async (req,res)=>{
+    const {min,max}=req.query;
+    try {
+        const product = await Product.find(
+            {price: {$gte:min,$lte:max}}
+        ).sort({price:1})
+        if(!product){
+              res.status(404).json({msg:'ne product found'})
+          }else{
+            res.status(201).json(product);
+          }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+
+    }
+ 
+}
+
 
 module.exports = {
     updateProduct,
     deleteProduct,
   searchForProduts,
   createProduct,
-  getAllProducts
+  getAllProducts,
+  searchProductsByPrice
 };
 
 

@@ -16,13 +16,14 @@ try{
     console.log(admin);
     const passwordsMatched = await bcrypt.compare(password, admin.password);
     if(passwordsMatched){
-        const payload = {id: admin.id , name: admin.name , isAdmin: admin.isAdmin};
+        const payload = {id: admin.id , name: admin.name};
         console.log('payload :', payload);
         console.log('secret', process.env.ADMIN_SECRET);
          jwt.sign(payload, process.env.ADMIN_SECRET, {expiresIn:3600000 }, (err,token)=>{
-            res.cookie('token', token , {
-                maxAge:360000
-            });
+            res.json({
+                success: true,
+                token: 'Bearer ' + token
+              });
             res.status(200).json({msg:'admin logged successfully '})
          })
     }else{

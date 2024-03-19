@@ -1,5 +1,4 @@
 
-const productModel = require('../models/product.model');
 const express = require('express')
 const router = express.Router()
 const productsControllers = require('../controllers/productsControllers')
@@ -16,6 +15,8 @@ router.post('/', authenticateAdmin,productsControllers.createProduct);
 //these routes dont require admin authorization
 router.get('/',productsControllers.getAllProducts);
 router.get('/search',productsControllers.searchForProduts);
+router.get('/searchByPrice',productsControllers.searchProductsByPrice);
+
 
 
 

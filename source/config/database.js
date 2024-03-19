@@ -3,7 +3,7 @@ require("dotenv").config();
 const mongoose = require('mongoose');
 
 
-const uri = process.env.URI || 'mongodb://localhost:27017/';
+const uri = process.env.URI ;
 mongoose.connect(uri)
 const db = mongoose.connection;
 
@@ -14,7 +14,5 @@ db.once('open', () => {
   console.log("Connected to MongoDB Atlas!");
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(passport.initialize());
+
+module.exports = db;

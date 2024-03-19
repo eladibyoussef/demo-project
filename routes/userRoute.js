@@ -16,14 +16,15 @@ router.get('/profile',authenticateUser, userController.getUserProfile);
 router.post('/forgotpassword', passwordResetControllers.forgotpassword)
 
 //after receiving the token the user will be send it back in params along with the new  password and it confirmation
-router.post('/resetpassword/:token',passwordResetControllers.resetPassword)
+router.post('/resetpassword/:token',passwordResetControllers.resetPassword);
 // Update user profile
 router.put('/profile/:id',authenticateUser,  userController.updateUserProfile);
 
 // Delete user profile
 router.delete('/profile/:id',authenticateUser,  userController.deleteUserProfile);
 
-router.get('/logout',userController.logOutUser )
+router.get('/logout',userController.logOutUser );
+
 
 module.exports = router;
 

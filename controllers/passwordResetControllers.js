@@ -14,11 +14,11 @@ const forgotpassword = async (req, res) => {
     }
     //if the user exists we will generat a token valid for 10 minutes and store it with the user document
     const resetToken = generateToken();
+   sendResetPasswordEmail(email, resetToken);
     user.resetToken = resetToken;
     user.resetTokenExpiration = Date.now() + 600000;
     // we will save the user alomg with the rest token and its expiration date so we can compare it later
     await user.save();
-    sendResetPasswordEmail(email, resetToken);
     res.status(200).json({ msg: " reset email password sent successfully" });
   } catch (error) {
     console.log("catched error :", error.message);
@@ -43,9 +43,8 @@ const resetPassword = async (req, res) => {
           msg: "we are sorry the password reset session  has expired or invalid token",
         });
     } else {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      user.password = hashedPassword;
+      
+      user.password = password;
       user.resetToken = undefined;
       user.resetTokenExpiration = undefined;
       user.passwordUpdatedAt = Date.now();
@@ -61,12 +60,10 @@ const resetPassword = async (req, res) => {
         { expiresIn: 3600000 },
         (err, token) => {
           // console.log(token);
-          res.cookie("token", token, {
-            maxAge: 3600000,
+          res.status(200).json({
+            success: true,
+            token: 'Bearer ' + token
           });
-          res
-            .status(200)
-            .json({ msg: "password updated , logged in successfully " });
         }
       );
     }
