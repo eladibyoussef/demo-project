@@ -11,7 +11,7 @@ const db = mongoose.connection;
 //handle events for mongoDB connection to be aware of the connection status
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
-  console.log("Connected to MongoDB Atlas!");
+  console.log("Connected to MongoDB !");
 });
 
 

@@ -43,13 +43,13 @@ try{
 // Controller function to get all users
 const getAllUsers = async (req, res) => {
     try {
-
+         
         // Use the User model to find all users in the database
         const users = await User.find();
 
-
+   console.log(users);
         // Send the array of users as the response
-        res.send(users);
+        res.status(200).json(users);
     } catch (error) {
         res.status(500).send('Internal Server Error');
     }
